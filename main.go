@@ -15,7 +15,7 @@ func main() {
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
-		fmt.Fprintln(os.Stderr, os.Args[0], "stun.l.google.com:19302")
+		fmt.Fprintln(os.Stderr, os.Args[0], "stun1.l.google.com:19302")
 	}
 
 	flag.Parse()
