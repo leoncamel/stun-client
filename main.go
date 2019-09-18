@@ -35,6 +35,13 @@ func main() {
 		panic(err)
 	}
 
+	var rtoStr string = flag.Arg(2)
+	if rtoStr == "" {
+		rtoStr = "300"
+	}
+	var rto int
+	rto, err = strconv.Atoi(rtoStr)
+	// ====================
 	fmt.Println("target stun server                  : ", addr)
 	fmt.Println("sleep interval for each iteration is: ", sleepStr)
 
@@ -43,6 +50,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	c.SetRTO(time.Duration(rto) * time.Millisecond)
 
 	for index := 0; index < 10; index++ {
 		// Building binding request with random transaction id.
