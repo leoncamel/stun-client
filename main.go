@@ -46,8 +46,7 @@ func main() {
 	// ====================
 	fmt.Println("target stun server                  : ", addr)
 	fmt.Println("sleep interval for each iteration is: ", sleepStr)
-	show_net_interfaces()
-	fmt.Println("==================================================")
+	showNetInterfaces(false)
 
 	// Creating a "connection" to STUN server.
 	c, err := stun.Dial("udp", addr)
@@ -81,8 +80,8 @@ func main() {
 	}
 }
 
-func show_net_interfaces() {
-	fmt.Println("=== interfaces ===")
+func showNetInterfaces(verbose bool) {
+	fmt.Println("=============== network interfaces ===============")
 
 	ifaces, _ := net.Interfaces()
 	for _, iface := range ifaces {
@@ -104,12 +103,15 @@ func show_net_interfaces() {
 			} else {
 				fmt.Println("       ", addrStr0, "is ipv6")
 			}
-			fmt.Println("       ", addrStr0, "is interface-local multicast :", ip.IsInterfaceLocalMulticast())
-			fmt.Println("       ", addrStr0, "is link-local multicast      :", ip.IsLinkLocalMulticast())
-			fmt.Println("       ", addrStr0, "is link-local unicast        :", ip.IsLinkLocalUnicast())
-			fmt.Println("       ", addrStr0, "is global unicast            :", ip.IsGlobalUnicast())
-			fmt.Println("       ", addrStr0, "is multicast                 :", ip.IsMulticast())
-			fmt.Println("       ", addrStr0, "is loopback                  :", ip.IsLoopback())
+			if verbose {
+				fmt.Println("       ", addrStr0, "is interface-local multicast :", ip.IsInterfaceLocalMulticast())
+				fmt.Println("       ", addrStr0, "is link-local multicast      :", ip.IsLinkLocalMulticast())
+				fmt.Println("       ", addrStr0, "is link-local unicast        :", ip.IsLinkLocalUnicast())
+				fmt.Println("       ", addrStr0, "is global unicast            :", ip.IsGlobalUnicast())
+				fmt.Println("       ", addrStr0, "is multicast                 :", ip.IsMulticast())
+				fmt.Println("       ", addrStr0, "is loopback                  :", ip.IsLoopback())
+			}
 		}
 	}
+	fmt.Println("==================================================")
 }
