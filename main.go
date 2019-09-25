@@ -109,7 +109,7 @@ func serilizeToString(e stun.Event) string {
 
 func main() {
 	app := cli.NewApp()
-	app.Version = "0.0.1"
+	app.Version = "0.0.2"
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
