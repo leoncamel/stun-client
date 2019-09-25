@@ -20,7 +20,7 @@ func runStunClient(c *cli.Context) {
 	totalCount := c.Int("count")
 
 	// ====================
-	showNetInterfaces(false)
+	showNetInterfaces(c.Bool("verbose"))
 	fmt.Println("target stun server                  : ", addr)
 	fmt.Println("sleep interval for each iteration is: ", sleepDuration)
 
@@ -46,11 +46,13 @@ func runStunClient(c *cli.Context) {
 			}
 
 			// Decoding XOR-MAPPED-ADDRESS attribute from message.
-			var xorAddr stun.XORMappedAddress
-			if err := xorAddr.GetFrom(res.Message); err != nil {
-				panic(err)
+			if !c.Bool("ignore-mapped-address") {
+				var xorAddr stun.XORMappedAddress
+				if err := xorAddr.GetFrom(res.Message); err != nil {
+					panic(err)
+				}
+				fmt.Println("your address on Gateway is, IP:", xorAddr.IP, "Port:", xorAddr.Port)
 			}
-			fmt.Println("your address on Gateway is, IP:", xorAddr.IP, "Port:", xorAddr.Port)
 		}); err != nil {
 			panic(err)
 		}
@@ -129,6 +131,10 @@ func main() {
 			Name:  "count, c",
 			Value: 10,
 			Usage: "Loop count",
+		},
+		cli.BoolFlag{
+			Name:  "ignore-mapped-address, e",
+			Usage: "Ignore show mapped address from STUN message",
 		},
 		cli.BoolFlag{
 			Name:  "verbose, V",
