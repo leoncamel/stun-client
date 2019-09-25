@@ -20,7 +20,9 @@ func runStunClient(c *cli.Context) {
 	totalCount := c.Int("count")
 
 	// ====================
-	showNetInterfaces(c.Bool("verbose"))
+	if c.Bool("show-interfaces") {
+		showNetInterfaces(c.Bool("verbose"))
+	}
 	fmt.Println("target stun server                  : ", addr)
 	fmt.Println("sleep interval for each iteration is: ", sleepDuration)
 
@@ -41,7 +43,7 @@ func runStunClient(c *cli.Context) {
 			if res.Error != nil {
 				panic(res.Error)
 			}
-			if c.Bool("verbose") {
+			if c.Bool("show-stun-message") {
 				fmt.Println(serilizeToString(res))
 			}
 
@@ -135,6 +137,14 @@ func main() {
 		cli.BoolFlag{
 			Name:  "ignore-mapped-address, e",
 			Usage: "Ignore show mapped address from STUN message",
+		},
+		cli.BoolFlag{
+			Name:  "show-interfaces, si",
+			Usage: "Show network interfaces",
+		},
+		cli.BoolFlag{
+			Name:  "show-stun-message, ss",
+			Usage: "Show STUN event message details",
 		},
 		cli.BoolFlag{
 			Name:  "verbose, V",
